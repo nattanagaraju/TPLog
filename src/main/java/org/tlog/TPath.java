@@ -17,10 +17,11 @@ public class TPath {
 	
 	public static void startTPath(String compName){
 		int index = ((Integer)getThreadVal().get("tcount")) + 1;
+		
 		getThreadVal().put("tcount", index);
 		getThreadVal().put(compName, index);
 		getThreadVal().put("comp_index_"+index+"_start", System.currentTimeMillis());
-		getThreadVal().put("comp_index_"+index+"_msg", new StringBuilder("TPath-"+compName).append("{"));
+		getThreadVal().put("comp_index_"+index+"_msg", new StringBuilder("{TPath-"+compName).append("{"));
 	}
 	
 	public static void endTPath(String compName, String source, String methodName, 
@@ -42,10 +43,13 @@ public class TPath {
 	public static String execTPathReport(String compName, Map<String, Object> logParams){
 		int index = (Integer)getThreadVal().get(compName);
 		int totIndex = (Integer)getThreadVal().get("tcount");
-		StringBuilder logBuilder = new StringBuilder();
-		for(int i=index; i<=totIndex; i++){
-			logBuilder.append(((StringBuilder)getThreadVal().get("comp_index_"+i+"_msg")).toString());
-			logBuilder.append("}");
+		StringBuilder logBuilder = null;
+		StringBuilder tempBuilder = null;
+		for(int i=totIndex; i>index; i--){
+			tempBuilder = new StringBuilder();
+			tempBuilder.append(((StringBuilder)getThreadVal().get("comp_index_"+i+"_msg")).toString()).append("}}");
+			logBuilder = (StringBuilder)getThreadVal().get("comp_index_"+(i-1)+"_msg");
+			logBuilder.append(tempBuilder.toString());
 		}
 		if(logParams != null){
 			logBuilder.append("{");
