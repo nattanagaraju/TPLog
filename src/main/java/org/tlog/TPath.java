@@ -45,11 +45,15 @@ public class TPath {
 		int totIndex = (Integer)getThreadVal().get("tcount");
 		StringBuilder logBuilder = null;
 		StringBuilder tempBuilder = null;
-		for(int i=totIndex; i>index; i--){
+		for(int i=totIndex; i>=index; i--){
 			tempBuilder = new StringBuilder();
 			tempBuilder.append(((StringBuilder)getThreadVal().get("comp_index_"+i+"_msg")).toString()).append("}}");
-			logBuilder = (StringBuilder)getThreadVal().get("comp_index_"+(i-1)+"_msg");
-			logBuilder.append(tempBuilder.toString());
+			if(i > 1){
+				logBuilder = (StringBuilder)getThreadVal().get("comp_index_"+(i-1)+"_msg");
+				logBuilder.append(tempBuilder.toString());
+			}else{
+				logBuilder = tempBuilder;
+			}
 		}
 		if(logParams != null){
 			logBuilder.append("{");
