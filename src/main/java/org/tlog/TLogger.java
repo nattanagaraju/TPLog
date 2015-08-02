@@ -68,8 +68,9 @@ public class TLogger{
 				    handler = new FileHandler("C:\\report.log");
 				    log.setLevel(TLogLevel.REPORT);
 			    }else{
-			    	 handler = new FileHandler("C:\\info.log");
-					    log.setLevel(Level.INFO);
+			    	 handler = new ConsoleHandler();
+			    	 //handler = new FileHandler("C:\\info.log");
+					 log.setLevel(Level.INFO);
 			    }
 			    handler.setFormatter(new TLogFormatter());
 			    log.addHandler(handler);
